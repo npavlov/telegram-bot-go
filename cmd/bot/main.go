@@ -2,13 +2,20 @@ package main
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	viper "github.com/spf13/viper"
 	"log"
 )
 
-const TOKEN = "token"
-
 func main() {
-	bot, err := tgbotapi.NewBotAPI(TOKEN)
+	viper.SetConfigFile(".env")
+	err := viper.ReadInConfig()
+	if err != nil {
+		return
+	}
+
+	token := viper.GetString("TOKEN")
+
+	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
 		log.Panic(err)
 	}
